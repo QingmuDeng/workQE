@@ -95,3 +95,90 @@ The electron-nucleius interaction term (the last in H) gives the energy of N ele
 ### Electron Density - DFT
 Electron density is a function.
 ![electron_density](electron_density.png)
+
+### 1st Hohenberg-Kohn Theorem
+![firstHKT](firstHKT.png)
+the \psi is not all wavefunction; the density is not density.
+
+C: External Potential -> Wavefunctions
+
+D: Wavefunction -> Density
+
+By construction, the relationships are surjective. There is at least one incoming arrow. But are these relationships injective, where at most one arrow arrives at a point? All information must be in wavefunctions. If two systems have the same wavefunctions, then they must be the same system, therefore C must be injective. D may not be injective, because different complex wavefunction could be projected onto the same less complex density. However, 1st HKT shows that the relationship D is injective.
+
+To sum up, C and D are bijective -- a one-to-one relationship. You can do quantum mechanics with densities instead of wave functions.
+```
+There is a one-to-one correspondence between the ground state density of a many-electron system and the external potential.
+```
+Consequence : any observable ground state property of the many-electron system can be written as a unique functional of density:
+![fhktc.png](fhktc.png)
+
+### 2nd Hohenberg-Kohn Theorem
+```
+The unique functional that treturns the ground state total energy, when applied to the ground state density, returns a higher energy for any other density.
+```
+![shkt.png](shkt.png)
+
+### Method of Kohn & Sham
+The Kohn-Sham equations are an exact transformation of the original problem (coupled differential equations) in single particle equations (uncoupled).
+
+![kohnsham.png](kohnsham.png)
+
+The exchange correlation potential is a functional derivative of an exchange correlation functional. "The KS equations recast the SE problem of interacting electrons moving in an external ion potential into a problem of noninteracting electrons moving in an effective potential."
+
+### Exchange-Correlation Functional
+One unique expression for V_xc[tho] must exist, but is unknown. Begin with a simple solid with homogeneous positively charge (no nuclei), add the same amount of electrons to such solid, and the solid is now neutral. This is the simplest solid you can conjure up. To apply the idea to actual solids, divide then up into infinitely small blocks and add up the contribution from every point.
+![LDA](LDA.png)
+As an extension, you can use Generalized Gradient Approximation(GGA), not just local density but its surroundings. It helps improve some DFT calculations.
+
+### Correlation
+- Two body problem, analytically soluble
+- Three body problem, only numerical solution possible
+Energy: kinetic translationa, kinetic rotational, potential
+Correlation in classical mechanics: 
+`difference = (classical) correlation energy = total energy of Sun-Earth-Jupiter -(total energy of Sun-Earth+ total energy of Sun-Jupiter)`
+
+In quantum mechanics,
+![qmcorrelation](qmcorrelation.png)
+Exchange: difference between Hartree and Hartree-Fock; correlation: difference between Hartree-Fock and exact solution.
+
+### Numerical Solution Techniques
+It can be solved such as a fourier series. We find a basis function upon which we solve for coefficients and improve accuracies with more terms.
+![numcalc](numcalc.png)
+A basis set transforms Kohn-ShSam equation into matrix algebra.
+![matrixalgebra.png](matrixalgebra.png)
+The self-consistent field problem. The Hartree term contains the density. The scf method is the way around.
+![scfblock.png](scf.png)
+![scfblock.png](scfblock.png)
+Many choices of basis exists:
+- localized basis functions: GTO, STO
+- plane-wave basis function (in combination with pseudopotentials)
+- augmented plane wave basis functions (LAPW, LMTO, ...)
+
+#### All-electron methods vs. Pseudopotential methods
+- Lemma 1: decomposition of a function in a sum over basis function: the larger the qualitative difference between original and basis functions, the more basis functions will you need
+- Lemma 2: the time required to perform a DFT calculation increases rapidly with the number of basis functions that are used
+How to get the number of basis functions as small as possible? 
+- All electron methods: Close to the nuclei, the wavefunction may have high frequency, and low frequency far away from it.limit the number of basis function by selecting basis functions that look similarly to how the result will look; examples: LAPW, APW+lo, LMTO, (some) local orbitals
+- Pseudopotential: when the interaction is on a relatively long range, for example chemical bonds, replace the actual potential with pseudopotential. Limit the number of basis functions by solving a hypothetical crystal that looks like the original one only in interesting regions; examples: plane waves, PAW, some local orbitals
+![pseudo.png](pseudo.png)
+
+### Basis Set Size
+In a dft paper, the basis set size is usually the "kinetic energy cutoff." The stop point of the summation determines the precision of the dft calculation.
+
+### K-Mesh/BRILLOUIN Zone Sampling
+People examine properties through reciprocal space. K-points specify mesh in a 3d space to calculate numerical integrals in the first brillouin zone. A larger number suggests a finer grid with heavier calculation time.
+
+
+## Crystallography
+### CIF files
+DFT Inputs:
+- Physical input: unit cell of the crystal
+- technical input: XC-functional, basis set size, k-mesh
+
+Crystallogrpahic Information File(CIF) is human- and machine-readable.
+
+- COD: www.crystallography.net
+- ICSD: hettps://icsd.fiz-karlsruhe.de
+- MP: www.materialsproject.org
+
