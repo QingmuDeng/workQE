@@ -182,3 +182,106 @@ Crystallogrpahic Information File(CIF) is human- and machine-readable.
 - ICSD: hettps://icsd.fiz-karlsruhe.de
 - MP: www.materialsproject.org
 
+MP does not have a database code, unliek COD. `_cod_database_code               9005949` needs to be added for `cif2cell` to work.
+
+The three angles and three lengths define the shape of the unit cell.
+![cif1](cif1.png)
+
+Symmetry space group is sometimes specified in Hermann-Mauguin notation. All crystals can be characterized in 239 space groups.
+
+The first `loop_` specifies the keywords for the corresponding columns in the x-y-z details.
+
+Where to find Wyckoff position possible within a space group? (Bilbao Crystallographic server)[www.cryst.ehu.es].
+
+Research paper report crystal structures in a short hand way by quoting space group and one coordiantes of every Wyckoff position.
+
+### Useful Tools
+- Vesta, for visualizing crystals
+- Bilbao, for online crystal visualization
+- Stoke's findsym, for adding symmetry information to a cif file with symmetry (in case it crashes, visualize the file in Bilbao first and download the cif reprocessed by Bilbao)
+
+## Geometry Optimization
+### Step 1: Unit Cell Volume
+To begin with, when making predictions for ideal gases, we use the ideal gas law.
+```
+PV=nRT
+```
+Example questions:
+1. given a P and a T, what is the volume of the ideal gas?
+2. How much does the pressure need to be increased to reduce this volume by 1%?
+We will ask similar questions in the context of a solid, say a fcc Al:
+1. what is the volume taken by 1 mole of Al atoms in a fcc crystal, at 0K and without external pressure?
+2. How much does the pressure need to be increased to reduce this volume by 1%?
+A typical procedure would be like: calculate the total energy for fcc Al with lattice parameters from 3.7A to 4.35A.  
+
+Energy versus volume data points can be fitted by equations of states(EoS). A few parameter expressiont hat has an instrinsic shape that naturally mimics the behavior of solids. The parameters often have a physical meaning. A common example is the Murnaghan quation.
+![murnaghan.png](murnaghan.png)
+- B0 - Bulk Modulus
+- B1 - partial derivative of bulk modulus with respect to pressure
+- V0 - volume at equilibrium
+- E0 - energy at equilibrium
+Murnaghan equation is not a parabola at all.
+![murnaghan1.png](murnaghan1.png)
+
+so which volume is the optimization again? the minimized?
+
+### Bulk Modulus and Pressure
+
+In textbook, bulk modulus: at a given volume the pressure change needed to achieve a certain volume change.
+![bm](bm.png)
+
+Other equations of state also exist. The most common one is Birch-Murnaghan equation.
+![bme](rmurnaghan.png)
+
+### Step 2: Unit Cell Shape
+Knowing the volume does not fix the volume of the unit cells, especially for non-cubic cells.
+
+![same volume not same shape](volumenotfix.png)
+
+To find the correct cell shape, you need to cycle through the following parameters and minimize them. However, it can be time consuming. Stress tensor is an alternative way to do it.
+![shape.png](shape.png)
+
+Here is an working example of shape optimization.
+![shapeexample.png](shapeexample.png)
+
+### Introduction to Forces
+![displaced.png](displaced.png)
+
+Harmonic forces between nuclei/atoms can be calculated through DFT. Just like a block on a spring.
+
+### Classical Forces
+![classicalemforce.png](classicalemforce.png)
+
+Hamiltonian mechanics relates total energy and forces.
+
+![hamiltonianmechanics](hamiltonianME.png)
+
+### Quantum Forces
+Quantum version of the Hamiltonian relationship exists.
+
+![hamiltonianQM.png](hamiltonianQM.png)
+
+Hellman-Feyman therorem states the force on an atom is equal to the electrostatic force on its nucleus.
+
+![HFtheorem.png](HFtheorem.png)
+
+### Symmetry and Forces
+If we know a crystal have a fcc lattice, then searching for non fcc positions may be unnecessary.
+
+### Step 3: Atom Positions 
+![dft_foces.png](dft_foces.png)
+
+### Full Geometry Optimization
+![fullgeomtric.png](fullgeomtric.png)
+
+### Composition-Dependent Ground State Phase Diagrams
+Cohesive Energy = Energy_solid - Energy_atom
+If atoms gain energy by forming the solid, no energytic reason why they shouldn't exist.
+![cohesiveenergy.png](cohesiveenergy.png)
+
+The formation energy is defined as
+![formationenergy.png](formationenergy.png)
+If the formation energy is low, it is energytically favorable to form the alloy; if it's high, it will likely separate into its elemental phases.
+
+Phases on the convex hull is where stable crystal formations would happen.
+![phase.png](phase.png)
