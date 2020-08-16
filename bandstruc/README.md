@@ -1,0 +1,1 @@
+`plostband.x` asked for Fermi energy, but the tutorial did not address how to find it.
